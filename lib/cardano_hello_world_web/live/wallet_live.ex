@@ -55,6 +55,8 @@ defmodule CardanoHelloWorldWeb.WalletLive do
   # Send transaction to self
   @impl true
   def handle_event("send_to_self", _params, socket) do
+    IO.inspect("send to self")
+
     {:noreply, push_event(socket, "send_to_self", %{})}
   end
 

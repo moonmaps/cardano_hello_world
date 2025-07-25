@@ -71,6 +71,9 @@ const WalletHook = {
 
     // Listen for LV -> hook event to connect
     this.handleEvent("connect_wallet", async ({ wallet }) => {
+
+      console.log("WAT DA FUK!");
+
       try {
         if (!window.cardano?.[wallet]) throw `Wallet '${wallet}' not found`;
         const api = await window.cardano[wallet].enable();
@@ -86,6 +89,7 @@ const WalletHook = {
 
     // Listen for LV -> hook event to disconnect
     this.handleEvent("disconnect_wallet", () => {
+      console.log("DA FUK");
       // Clear any stored wallet reference
       // Note: CIP-30 doesn't have a standard disconnect method,
       // so we just clear our local state

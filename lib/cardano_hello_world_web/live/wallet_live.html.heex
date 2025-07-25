@@ -26,6 +26,30 @@
     <div class="text-green-600 font-medium text-center">
       ✅ Connected: {@connected_wallet}
       <div class="text-sm text-gray-500 mb-3">Network: {@network_id}</div>
+      
+      <!-- Transaction Section -->
+      <div class="mb-3">
+        <button 
+          phx-click="send_to_self" 
+          class="bg-green-500 hover:bg-green-600 text-white text-xs px-3 py-1 rounded mb-2"
+        >
+          Send 2 ADA to myself
+        </button>
+        
+        <%= case @tx_status do %>
+          <% {:submitted, hash} -> %>
+            <div class="text-xs text-green-600 break-all">
+              ✅ Tx: <%= hash %>
+            </div>
+          <% {:error, e} -> %>
+            <div class="text-xs text-red-600">
+              ❌ <%= e %>
+            </div>
+          <% _ -> %>
+        <% end %>
+      </div>
+      
+      <!-- Wallet Controls -->
       <div class="flex gap-2 justify-center">
         <button 
           phx-click="switch_wallet" 

@@ -10,6 +10,7 @@ defmodule CardanoHelloWorldWeb.WalletLive do
       |> assign(:wallet_error, nil)
       |> assign(:connected_wallet, nil)
       |> assign(:network_id, nil)
+      |> assign(:tx_status, nil)
 
     {:ok, socket}
   end
@@ -34,7 +35,8 @@ defmodule CardanoHelloWorldWeb.WalletLive do
      |> assign(:wallet_status, :disconnected)
      |> assign(:connected_wallet, nil)
      |> assign(:network_id, nil)
-     |> assign(:wallet_error, nil)}
+     |> assign(:wallet_error, nil)
+     |> assign(:tx_status, nil)}
   end
 
   # Disconnect current wallet
@@ -46,7 +48,26 @@ defmodule CardanoHelloWorldWeb.WalletLive do
      |> assign(:connected_wallet, nil)
      |> assign(:network_id, nil)
      |> assign(:wallet_error, nil)
+     |> assign(:tx_status, nil)
      |> push_event("disconnect_wallet", %{})}
+  end
+
+  # Send transaction to self
+  @impl true
+  def handle_event("send_to_self", _params, socket) do
+    {:noreply, push_event(socket, "send_to_self", %{})}
+  end
+
+  # Transaction submitted successfully
+  @impl true
+  def handle_event("tx_submitted", %{"txHash" => hash}, socket) do
+    {:noreply, assign(socket, :tx_status, {:submitted, hash})}
+  end
+
+  # Transaction error
+  @impl true
+  def handle_event("tx_error", %{"error" => err}, socket) do
+    {:noreply, assign(socket, :tx_status, {:error, err})}
   end
 
   # Hook -> LV: result of connect

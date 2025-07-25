@@ -23,9 +23,23 @@
   style="position: fixed; top: 1rem; right: 1rem; z-index: 50; background: white; border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);"
 >
   <%= if @wallet_status == :connected do %>
-    <div class="text-green-600 font-medium">
+    <div class="text-green-600 font-medium text-center">
       ✅ Connected: {@connected_wallet}
-      <div class="text-sm text-gray-500">Network: {@network_id}</div>
+      <div class="text-sm text-gray-500 mb-3">Network: {@network_id}</div>
+      <div class="flex gap-2 justify-center">
+        <button 
+          phx-click="switch_wallet" 
+          class="bg-blue-500 hover:bg-blue-600 text-white text-xs px-2 py-1 rounded"
+        >
+          Switch
+        </button>
+        <button 
+          phx-click="disconnect_wallet" 
+          class="bg-red-500 hover:bg-red-600 text-white text-xs px-2 py-1 rounded"
+        >
+          Disconnect
+        </button>
+      </div>
     </div>
   <% else %>
     <%= if @wallets == [] do %>

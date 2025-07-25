@@ -24,6 +24,14 @@ const WalletHook = {
         this.pushEvent("wallet_connected", { ok: false, error: String(err) });
       }
     });
+
+    // Listen for LV -> hook event to disconnect
+    this.handleEvent("disconnect_wallet", () => {
+      // Clear any stored wallet reference
+      // Note: CIP-30 doesn't have a standard disconnect method,
+      // so we just clear our local state
+      console.log("Wallet disconnected");
+    });
   }
 };
 

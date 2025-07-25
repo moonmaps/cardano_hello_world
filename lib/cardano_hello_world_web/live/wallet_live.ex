@@ -26,6 +26,29 @@ defmodule CardanoHelloWorldWeb.WalletLive do
     {:noreply, push_event(socket, "connect_wallet", %{wallet: wallet})}
   end
 
+  # Switch to a different wallet
+  @impl true
+  def handle_event("switch_wallet", _, socket) do
+    {:noreply,
+     socket
+     |> assign(:wallet_status, :disconnected)
+     |> assign(:connected_wallet, nil)
+     |> assign(:network_id, nil)
+     |> assign(:wallet_error, nil)}
+  end
+
+  # Disconnect current wallet
+  @impl true
+  def handle_event("disconnect_wallet", _, socket) do
+    {:noreply,
+     socket
+     |> assign(:wallet_status, :disconnected)
+     |> assign(:connected_wallet, nil)
+     |> assign(:network_id, nil)
+     |> assign(:wallet_error, nil)
+     |> push_event("disconnect_wallet", %{})}
+  end
+
   # Hook -> LV: result of connect
   @impl true
   def handle_event(

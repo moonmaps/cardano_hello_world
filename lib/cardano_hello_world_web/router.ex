@@ -17,7 +17,8 @@ defmodule CardanoHelloWorldWeb.Router do
   scope "/", CardanoHelloWorldWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    live "/", WalletLive
+    get "/home", PageController, :home
   end
 
   # Other scopes may use custom stacks.

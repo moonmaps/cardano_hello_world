@@ -1,0 +1,23 @@
+<div id="wallet-hook" phx-hook="WalletHook"></div>
+
+<div class="wallet-indicator" style="position: fixed; top: 1rem; right: 1rem;">
+  <%= if @wallet_status == :connected do %>
+    <span>✅ Connected: <%= @connected_wallet %> (network <%= @network_id %>)</span>
+  <% else %>
+    <%= if @wallets == [] do %>
+      <span>No CIP-30 wallet detected</span>
+    <% else %>
+      <form phx-submit="connect_wallet" style="display: inline;">
+        <select name="wallet">
+          <%= for w <- @wallets do %>
+            <option value={w}><%= w %></option>
+          <% end %>
+        </select>
+        <button type="submit">Connect Wallet</button>
+      </form>
+    <% end %>
+    <%= if @wallet_status == :error do %>
+      <div style="color:red;">Error: <%= @wallet_error %></div>
+    <% end %>
+  <% end %>
+</div> 

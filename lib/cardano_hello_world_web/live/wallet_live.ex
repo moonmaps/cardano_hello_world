@@ -28,7 +28,11 @@ defmodule CardanoHelloWorldWeb.WalletLive do
 
   # Hook -> LV: result of connect
   @impl true
-  def handle_event("wallet_connected", %{"ok" => true, "wallet" => wallet, "networkId" => net}, socket) do
+  def handle_event(
+        "wallet_connected",
+        %{"ok" => true, "wallet" => wallet, "networkId" => net},
+        socket
+      ) do
     {:noreply,
      socket
      |> assign(:wallet_status, :connected)

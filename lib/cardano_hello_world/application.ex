@@ -9,7 +9,8 @@ defmodule CardanoHelloWorld.Application do
   def start(_type, _args) do
     children = [
       CardanoHelloWorldWeb.Telemetry,
-      {DNSCluster, query: Application.get_env(:cardano_hello_world, :dns_cluster_query) || :ignore},
+      {DNSCluster,
+       query: Application.get_env(:cardano_hello_world, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: CardanoHelloWorld.PubSub},
       # Start the Finch HTTP client for sending emails
       {Finch, name: CardanoHelloWorld.Finch},

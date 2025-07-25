@@ -1,23 +1,77 @@
 <div id="wallet-hook" phx-hook="WalletHook"></div>
 
-<div class="wallet-indicator" style="position: fixed; top: 1rem; right: 1rem;">
+<!-- Main content -->
+<div class="text-center">
+  <h1 class="text-4xl font-bold text-zinc-900 mb-4">
+    Welcome to Cardano Hello World
+  </h1>
+  <p class="text-lg text-zinc-600 mb-8">
+    A simple Phoenix LiveView app with CIP-30 wallet connectivity
+  </p>
+
+  <div class="bg-zinc-50 rounded-lg p-6 max-w-md mx-auto">
+    <h2 class="text-xl font-semibold text-zinc-800 mb-2">Getting Started</h2>
+    <p class="text-zinc-600">
+      Install a CIP-30 compatible wallet like Eternl, Nami, or Lace, then use the wallet connector in the top-right corner.
+    </p>
+  </div>
+</div>
+
+<!-- Wallet indicator - fixed position in top-right -->
+<div
+  class="wallet-indicator"
+  style="position: fixed; top: 1rem; right: 1rem; z-index: 50; background: white; border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);"
+>
   <%= if @wallet_status == :connected do %>
-    <span>✅ Connected: <%= @connected_wallet %> (network <%= @network_id %>)</span>
+    <div class="text-green-600 font-medium">
+      ✅ Connected: {@connected_wallet}
+      <div class="text-sm text-gray-500">Network: {@network_id}</div>
+    </div>
   <% else %>
     <%= if @wallets == [] do %>
-      <span>No CIP-30 wallet detected</span>
+      <div class="text-gray-500 text-sm">No CIP-30 wallet detected</div>
     <% else %>
       <form phx-submit="connect_wallet" style="display: inline;">
-        <select name="wallet">
-          <%= for w <- @wallets do %>
-            <option value={w}><%= w %></option>
-          <% end %>
-        </select>
-        <button type="submit">Connect Wallet</button>
+        <div class="flex items-center gap-2">
+          <div class="relative">
+            <select
+              name="wallet"
+              class="text-sm border border-gray-300 rounded px-2 py-1 pr-8 min-w-[90px] bg-white cursor-pointer"
+              style="-webkit-appearance: none; -moz-appearance: none; appearance: none; background-image: none;"
+            >
+              <%= for w <- @wallets do %>
+                <option value={w}>{String.capitalize(w)}</option>
+              <% end %>
+            </select>
+            <!-- Custom dropdown arrow -->
+            <div class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+              <svg
+                class="w-3 h-3 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                >
+                </path>
+              </svg>
+            </div>
+          </div>
+          <button
+            type="submit"
+            class="bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 py-1 rounded whitespace-nowrap"
+          >
+            Connect
+          </button>
+        </div>
       </form>
     <% end %>
     <%= if @wallet_status == :error do %>
-      <div style="color:red;">Error: <%= @wallet_error %></div>
+      <div class="text-red-500 text-sm mt-1">Error: {@wallet_error}</div>
     <% end %>
   <% end %>
-</div> 
+</div>
